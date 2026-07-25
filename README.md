@@ -1,18 +1,38 @@
-# React + Vite
+# 📊 Inventory Management System (Frontend Only)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive, feature-rich Inventory Management System built with **React**, **Tailwind CSS**, **Formik**, **Yup**, and **LocalStorage**. Developed as an Intern Assessment task.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Features Implemented
 
-## React Compiler
+### Core Features
+- **Product Management (CRUD):** Add, Edit, Delete products with auto-generated SKU IDs.
+- **Stock Level Management:** Restock (+) and Sale (-) controls with validation to prevent negative stock.
+- **Form Validation:** Integrated **Formik** and **Yup** for client-side field validations.
+- **Dashboard Summary:** Overview of total products, total stock value (LKR), low stock alerts, and category distributions.
+- **Search & Filters:** Real-time search by Product Name/SKU and filter by Category or Stock Status (In Stock / Out of Stock).
+- **Data Persistence:** All data stored locally using browser `localStorage` (no backend required).
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### Bonus Features
+- 🏷️ **Auto-generated SKU:** Automatically creates unique identifiers (`PRD-XXXXXX`).
+- 📥 **CSV Export:** Download full inventory list as a `.csv` file.
 
-Note: This will impact Vite dev & build performances.
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Framework:** React.js (Vite)
+- **Styling:** Tailwind CSS
+- **Form Handling:** Formik
+- **Schema Validation:** Yup
+- **State & Storage:** React Hooks + LocalStorage API
+
+---
+
+## 💻 How to Run Locally
+
+1. **Clone the repository:**
+   ```bash
+   git clone <YOUR-GITHUB-REPO-LINK>
+   cd inventory-management-system
