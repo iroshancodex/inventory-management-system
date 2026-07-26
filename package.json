@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "formik": "^2.4.9",
+    "lucide-react": "^1.27.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "react-hot-toast": "^2.6.0",
+    "react-router-dom": "^7.18.1",
     "uuid": "^14.0.1",
     "yup": "^1.7.1"
   },
