@@ -79,7 +79,7 @@ const MainLayout = () => {
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <header className="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-8 flex items-center justify-between shrink-0">
           <h1 className="text-lg font-bold text-gray-900 dark:text-white">
-            Inventory System Management
+            Inventory  Management System
           </h1>
 
         </header>
