@@ -1,115 +1,95 @@
 // src/components/Dashboard.jsx
 import React from 'react';
+import AnalyticsChart from './AnalyticsChart';
 
-// Change this line:
 const Dashboard = ({ products = [], categories = [] }) => {
-  // Stats Calculations
+  // Calculations
   const totalProducts = products.length;
-
-  const totalValue = products.reduce(
-    (acc, prod) => acc + prod.price * prod.stock,
-    0
-  );
-
-  const outOfStockCount = products.filter((prod) => prod.stock === 0).length;
-  const lowStockCount = products.filter(
-    (prod) => prod.stock > 0 && prod.stock <= 5
-  ).length;
-
-  // Calculate Product count per Category
-  const categoryCounts = categories.map((cat) => {
-    const count = products.filter((p) => p.category === cat).length;
-    return { name: cat, count };
-  });
+  const totalValue = products.reduce((sum, p) => sum + p.price * p.stock, 0);
+  const lowStockCount = products.filter((p) => p.stock > 0 && p.stock <= 5).length;
+  const outOfStockCount = products.filter((p) => p.stock === 0).length;
 
   return (
-    <div className="space-y-6 mb-8">
-      {/* Top Stat Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="space-y-6">
+      
+      {/* --- STAT CARDS GRID --- */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         
-        {/* Total Products */}
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              Total Products
-            </p>
-            <h3 className="text-2xl font-bold text-gray-800 mt-1">
-              {totalProducts}
-            </h3>
-          </div>
-          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-xl">
-            📦
-          </div>
-        </div>
-
-        {/* Total Inventory Value */}
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              Total Inventory Value
-            </p>
-            <h3 className="text-2xl font-bold text-green-600 mt-1">
-              Rs. {totalValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-            </h3>
-          </div>
-          <div className="w-12 h-12 bg-green-50 text-green-600 rounded-lg flex items-center justify-center text-xl">
-            💰
-          </div>
-        </div>
-
-        {/* Low Stock Warning */}
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              Low Stock Items (≤5)
-            </p>
-            <h3 className="text-2xl font-bold text-amber-600 mt-1">
-              {lowStockCount}
-            </h3>
-          </div>
-          <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-xl">
-            ⚠️
-          </div>
-        </div>
-
-        {/* Out of Stock Alert */}
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              Out of Stock
-            </p>
-            <h3 className="text-2xl font-bold text-red-600 mt-1">
-              {outOfStockCount}
-            </h3>
-          </div>
-          <div className="w-12 h-12 bg-red-50 text-red-600 rounded-lg flex items-center justify-center text-xl">
-            🚨
-          </div>
-        </div>
-
-      </div>
-
-      {/* Category Breakdown */}
-      <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-        <h3 className="text-base font-bold text-gray-800 mb-4">
-          🏷️ Product Count per Category
-        </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-          {categoryCounts.map((cat) => (
-            <div
-              key={cat.name}
-              className="p-3 bg-gray-50 border border-gray-100 rounded-lg text-center"
-            >
-              <span className="block text-xs font-medium text-gray-500 truncate">
-                {cat.name}
-              </span>
-              <span className="block text-lg font-bold text-gray-800 mt-0.5">
-                {cat.count}
-              </span>
+        {/* 1. Total Products Card (GRADIENT UPGRADE) */}
+        <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-5 text-white shadow-lg shadow-blue-500/10 relative overflow-hidden">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100">Total Products</p>
+              <h3 className="text-3xl font-extrabold mt-1">{totalProducts}</h3>
             </div>
-          ))}
+            <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-md text-xl">
+              📦
+            </div>
+          </div>
+          <div className="mt-3 flex items-center text-xs text-blue-100 font-medium">
+            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">Active</span>
+            <span>Live inventory count</span>
+          </div>
         </div>
+
+        {/* 2. Total Value Card */}
+        <div className="bg-gradient-to-br from-emerald-600 to-teal-600 rounded-2xl p-5 text-white shadow-lg shadow-emerald-500/10 relative overflow-hidden">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-emerald-100">Inventory Value</p>
+              <h3 className="text-2xl font-extrabold mt-1">
+                Rs. {totalValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              </h3>
+            </div>
+            <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-md text-xl">
+              💰
+            </div>
+          </div>
+          <div className="mt-3 flex items-center text-xs text-emerald-100 font-medium">
+            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">Asset</span>
+            <span>Total stock valuation</span>
+          </div>
+        </div>
+
+        {/* 3. Low Stock Card */}
+        <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-5 text-white shadow-lg shadow-amber-500/10 relative overflow-hidden">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-amber-100">Low Stock (≤5)</p>
+              <h3 className="text-3xl font-extrabold mt-1">{lowStockCount}</h3>
+            </div>
+            <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-md text-xl">
+              ⚠️
+            </div>
+          </div>
+          <div className="mt-3 flex items-center text-xs text-amber-100 font-medium">
+            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">Action</span>
+            <span>Items need restock</span>
+          </div>
+        </div>
+
+        {/* 4. Out of Stock Card */}
+        <div className="bg-gradient-to-br from-rose-600 to-red-600 rounded-2xl p-5 text-white shadow-lg shadow-rose-500/10 relative overflow-hidden">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-rose-100">Out of Stock</p>
+              <h3 className="text-3xl font-extrabold mt-1">{outOfStockCount}</h3>
+            </div>
+            <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-md text-xl">
+              🚨
+            </div>
+          </div>
+          <div className="mt-3 flex items-center text-xs text-rose-100 font-medium">
+            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">Critical</span>
+            <span>Unavailable items</span>
+          </div>
+        </div>
+
       </div>
+
+      {/* Visual Analytics Chart Component */}
+      <AnalyticsChart products={products} categories={categories} />
+
     </div>
   );
 };
