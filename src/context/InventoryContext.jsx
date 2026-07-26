@@ -1,11 +1,12 @@
 // src/context/InventoryContext.jsx
-import React, { createContext, useContext } from 'react';
+import { createContext, useContext } from 'react';
 import { useInventory } from '../hooks/useInventory';
 
 const InventoryContext = createContext(null);
 
 export const InventoryProvider = ({ children }) => {
   const inventory = useInventory();
+
   return (
     <InventoryContext.Provider value={inventory}>
       {children}
@@ -15,8 +16,10 @@ export const InventoryProvider = ({ children }) => {
 
 export const useInventoryContext = () => {
   const context = useContext(InventoryContext);
+
   if (!context) {
-    throw new Error('useInventoryContext must be used within an InventoryProvider');
+    throw new Error('Error');
   }
+
   return context;
 };

@@ -1,5 +1,6 @@
 // src/hooks/useInventory.js
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   getProductsFromStorage,
   saveProductsToStorage,
@@ -9,44 +10,43 @@ import {
 } from '../utils/storage';
 
 export const useInventory = () => {
-  // States
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
   const [historyLogs, setHistoryLogs] = useState([]);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
-  // Dark Mode State
+  // Sync theme preference with HTML root class and LocalStorage
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('theme') === 'dark';
   });
 
-  // Dark Mode Effect
   useEffect(() => {
+    const root = document.documentElement;
     if (darkMode) {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
       localStorage.setItem('theme', 'dark');
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
   }, [darkMode]);
 
-  // Load Initial Storage Data
+  // Load initial dataset
   useEffect(() => {
     setProducts(getProductsFromStorage());
     setCategories(getCategoriesFromStorage());
     setHistoryLogs(getStockHistoryFromStorage());
   }, []);
 
-  // Helper State Updater
+  // Helper to update state changes with persistent storage
   const updateProductsState = (newProducts) => {
     setProducts(newProducts);
     saveProductsToStorage(newProducts);
     setCategories(getCategoriesFromStorage());
   };
 
-  // Handlers Logic
+  // Create or Update Product
   const handleSaveProduct = (productData) => {
     if (editingProduct) {
       const updated = products.map((p) =>
@@ -54,23 +54,32 @@ export const useInventory = () => {
       );
       updateProductsState(updated);
       setEditingProduct(null);
+      toast.success('Product updated successfully');
     } else {
       const updated = [productData, ...products];
       updateProductsState(updated);
+      toast.success('New product added to inventory');
     }
   };
 
+  // Delete single product
   const handleDeleteProduct = (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       const updated = products.filter((p) => p.id !== id);
       updateProductsState(updated);
+      toast.error('Product deleted permanently');
     }
   };
 
+  // Increment or Decrement Stock Level
   const handleUpdateStock = (id, delta) => {
+    let updatedProductName = '';
+
     const updated = products.map((p) => {
       if (p.id === id) {
+        updatedProductName = p.name;
         const newStock = Math.max(0, p.stock + delta);
+
         const logs = addStockHistoryLog({
           productName: p.name,
           sku: p.id,
@@ -78,18 +87,28 @@ export const useInventory = () => {
           changeAmount: Math.abs(delta),
           newStock,
         });
+
         setHistoryLogs(logs);
         return { ...p, stock: newStock };
       }
       return p;
     });
+
     updateProductsState(updated);
+
+    if (delta > 0) {
+      toast.success(`Restocked +${delta} units for ${updatedProductName}`);
+    } else {
+      toast(`Stock reduced (-${Math.abs(delta)}) for ${updatedProductName}`, { icon: '📉' });
+    }
   };
 
+  // Bulk Operations
   const handleBulkDelete = (idsToDelete) => {
-    if (window.confirm(`Are you sure you want to delete ${idsToDelete.length} products?`)) {
+    if (window.confirm(`Are you sure you want to delete ${idsToDelete.length} selected products?`)) {
       const updated = products.filter((p) => !idsToDelete.includes(p.id));
       updateProductsState(updated);
+      toast.error(`${idsToDelete.length} products removed`);
     }
   };
 
@@ -108,8 +127,10 @@ export const useInventory = () => {
       }
       return p;
     });
+
     updateProductsState(updated);
     setHistoryLogs(getStockHistoryFromStorage());
+    toast.success(`Bulk restocked +${amount} units for ${idsToRestock.length} items`);
   };
 
   return {

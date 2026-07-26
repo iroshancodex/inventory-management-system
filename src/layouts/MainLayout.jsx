@@ -81,11 +81,7 @@ const MainLayout = () => {
           <h1 className="text-lg font-bold text-gray-900 dark:text-white">
             Inventory System Management
           </h1>
-          <div className="flex items-center gap-3">
-            <span className="text-xs px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200 dark:border-emerald-800">
-              ● System Active
-            </span>
-          </div>
+
         </header>
 
         <main className="flex-1 overflow-y-auto p-8 bg-gray-50 dark:bg-gray-900">

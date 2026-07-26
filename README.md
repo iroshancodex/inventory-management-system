@@ -60,14 +60,37 @@ Make sure you have **Node.js** (v16 or higher) and **npm** installed.
 ```bash
 git clone [https://github.com/your-username/inventory-management-system.git](https://github.com/your-username/inventory-management-system.git)
 cd inventory-management-system
-
+```
 ### 2. Install Dependencies
 ```bash
 npm install
-
-### 3. Start Server
+```
+### 3. Start the Development Server
 ```bash
 npm run dev
+```
+
+## The application will be running at http://localhost:5173.
+
+
+## Application Screenshots
+
+### 1. Dashboard & Analytics View
+![Dashboard Overview](./screenshots/dashboard.jpeg)
+
+### 2. Product Management & Data Table
+![Products Management](./screenshots/products.jpeg)
+
+###  3. Product Adding
+![Product Form Vali](./screenshots/form_validation.jpeg)
+
+###  4. Stock Audit History Logs
+![Stock Audit Logs](./screenshots/history.jpeg)
+
+
+
+
+
 
 
 
