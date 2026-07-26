@@ -1,222 +1,399 @@
+// // src/components/ProductForm.jsx
+// import { useState, useEffect } from 'react';
+// import { saveCategoryToStorage } from '../utils/storage';
+
+// const ProductForm = ({ onAddProduct, initialValues = null, isEditing = false, onCancel }) => {
+//   const [formData, setFormData] = useState({
+//     name: '',
+//     category: '',
+//     price: '',
+//     stock: '',
+//   });
+//   const [newCategoryInput, setNewCategoryInput] = useState('');
+//   const [isAddingCustomCategory, setIsAddingCustomCategory] = useState(false);
+
+//   useEffect(() => {
+//     if (initialValues) {
+//       setFormData({
+//         name: initialValues.name || '',
+//         category: initialValues.category || '',
+//         price: initialValues.price || '',
+//         stock: initialValues.stock || '',
+//       });
+//     }
+//   }, [initialValues]);
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData((prev) => ({ ...prev, [name]: value }));
+//   };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     if (!formData.name || !formData.category || !formData.price) return;
+
+//     let finalCategory = formData.category;
+//     if (isAddingCustomCategory && newCategoryInput.trim()) {
+//       finalCategory = newCategoryInput.trim();
+//       saveCategoryToStorage(finalCategory);
+//     }
+
+//     const payload = {
+//       id: initialValues?.id || `PRD-${Math.floor(1000 + Math.random() * 9000)}`,
+//       name: formData.name.trim(),
+//       category: finalCategory,
+//       price: parseFloat(formData.price) || 0,
+//       stock: parseInt(formData.stock, 10) || 0,
+//     };
+
+//     onAddProduct(payload);
+//   };
+
+//   return (
+//     <div className="space-y-4">
+//       <div>
+//         <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+//           {isEditing ? 'Edit Product Details' : 'Add New Inventory Item'}
+//         </h3>
+//         <p className="text-xs text-gray-500 dark:text-gray-400">
+//           Fill in product information below.
+//         </p>
+//       </div>
+
+//       <form onSubmit={handleSubmit} className="space-y-4">
+//         <div>
+//           <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+//             Product Name
+//           </label>
+//           <input
+//             type="text"
+//             name="name"
+//             value={formData.name}
+//             onChange={handleChange}
+//             placeholder="e.g. Anchor Full Cream Milk Powder 400g"
+//             required
+//             className="w-full px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+//           />
+//         </div>
+
+//         <div>
+//           <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+//             Category
+//           </label>
+//           {!isAddingCustomCategory ? (
+//             <div className="flex gap-2">
+//               <select
+//                 name="category"
+//                 value={formData.category}
+//                 onChange={handleChange}
+//                 required
+//                 className="flex-1 px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+//               >
+//                 <option value="">Select Category</option>
+//                 <option value="Dairy & Bakery">Dairy & Bakery</option>
+//                 <option value="Snacks & Beverages">Snacks & Beverages</option>
+//                 <option value="Household & Cleaning">Household & Cleaning</option>
+//                 <option value="Personal Care">Personal Care</option>
+//                 <option value="Pantry Essentials">Pantry Essentials</option>
+//               </select>
+//               <button
+//                 type="button"
+//                 onClick={() => setIsAddingCustomCategory(true)}
+//                 className="px-3 py-2 bg-gray-200 dark:bg-gray-600 text-xs font-semibold rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-300"
+//               >
+//                 + New
+//               </button>
+//             </div>
+//           ) : (
+//             <div className="flex gap-2">
+//               <input
+//                 type="text"
+//                 value={newCategoryInput}
+//                 onChange={(e) => setNewCategoryInput(e.target.value)}
+//                 placeholder="Enter new category"
+//                 className="flex-1 px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+//               />
+//               <button
+//                 type="button"
+//                 onClick={() => setIsAddingCustomCategory(false)}
+//                 className="px-3 py-2 bg-gray-200 dark:bg-gray-600 text-xs font-semibold rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-300"
+//               >
+//                 Cancel
+//               </button>
+//             </div>
+//           )}
+//         </div>
+
+//         <div className="grid grid-cols-2 gap-4">
+//           <div>
+//             <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+//               Price (Rs.)
+//             </label>
+//             <input
+//               type="number"
+//               name="price"
+//               min="0"
+//               step="0.01"
+//               value={formData.price}
+//               onChange={handleChange}
+//               placeholder="0.00"
+//               required
+//               className="w-full px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             />
+//           </div>
+
+//           <div>
+//             <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+//               Initial Stock Units
+//             </label>
+//             <input
+//               type="number"
+//               name="stock"
+//               min="0"
+//               value={formData.stock}
+//               onChange={handleChange}
+//               placeholder="0"
+//               required
+//               className="w-full px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             />
+//           </div>
+//         </div>
+
+//         <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
+//           {onCancel && (
+//             <button
+//               type="button"
+//               onClick={onCancel}
+//               className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+//             >
+//               Cancel
+//             </button>
+//           )}
+//           <button
+//             type="submit"
+//             className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-md transition"
+//           >
+//             {isEditing ? 'Save Changes' : 'Create Product'}
+//           </button>
+//         </div>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default ProductForm;
 // src/components/ProductForm.jsx
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { getCategoriesFromStorage, saveCategoryToStorage } from '../utils/storage';
+import { saveCategoryToStorage } from '../utils/storage';
 
-// Auto-generated SKU Helper (Bonus Feature)
-const generateSKU = () => {
-  const randomNum = Math.floor(100000 + Math.random() * 900000);
-  return `PRD-${randomNum}`;
-};
+const validationSchema = Yup.object({
+  name: Yup.string()
+    .min(3, 'Product name must be at least 3 characters')
+    .required('Product name is required'),
+  category: Yup.string().required('Please select or enter a category'),
+  price: Yup.number()
+    .typeError('Price must be a number')
+    .positive('Price must be greater than zero')
+    .required('Price is required'),
+  stock: Yup.number()
+    .typeError('Stock quantity must be a number')
+    .integer('Stock must be a whole number')
+    .min(0, 'Stock cannot be negative')
+    .required('Stock quantity is required'),
+});
 
 const ProductForm = ({ onAddProduct, initialValues = null, isEditing = false, onCancel }) => {
-  const [categories, setCategories] = useState([]);
+  const [isAddingCustomCategory, setIsAddingCustomCategory] = useState(false);
   const [newCategoryInput, setNewCategoryInput] = useState('');
-  const [showAddCategory, setShowAddCategory] = useState(false);
-
-  useEffect(() => {
-    setCategories(getCategoriesFromStorage());
-  }, []);
-
-  // Yup Validation Schema
-  const validationSchema = Yup.object({
-    name: Yup.string()
-      .trim()
-      .min(2, 'Name must be at least 2 characters')
-      .required('Product Name is required'),
-    category: Yup.string().required('Category is required'),
-    price: Yup.number()
-      .typeError('Price must be a number')
-      .positive('Price must be greater than 0')
-      .required('Price is required'),
-    stock: Yup.number()
-      .typeError('Stock must be a number')
-      .min(0, 'Stock cannot be negative')
-      .integer('Stock must be a whole number')
-      .required('Stock quantity is required'),
-  });
 
   const formik = useFormik({
-    initialValues: initialValues || {
-      id: generateSKU(),
-      name: '',
-      category: '',
-      price: '',
-      stock: '',
+    initialValues: {
+      name: initialValues?.name || '',
+      category: initialValues?.category || '',
+      price: initialValues?.price || '',
+      stock: initialValues?.stock || '',
     },
+    validationSchema: validationSchema,
     enableReinitialize: true,
-    validationSchema,
-    onSubmit: (values, { resetForm }) => {
-      onAddProduct({
-        ...values,
+    onSubmit: (values) => {
+      let finalCategory = values.category;
+
+      if (isAddingCustomCategory && newCategoryInput.trim()) {
+        finalCategory = newCategoryInput.trim();
+        saveCategoryToStorage(finalCategory);
+      }
+
+      const payload = {
+        id: initialValues?.id || `PRD-${Math.floor(100000 + Math.random() * 900000)}`,
+        name: values.name.trim(),
+        category: finalCategory,
         price: parseFloat(values.price),
         stock: parseInt(values.stock, 10),
-      });
-      resetForm({ values: { ...initialValues, id: generateSKU(), name: '', category: '', price: '', stock: '' } });
+      };
+
+      onAddProduct(payload);
     },
   });
 
-  const handleAddCustomCategory = () => {
-    if (newCategoryInput.trim()) {
-      const updatedCategories = saveCategoryToStorage(newCategoryInput.trim());
-      setCategories(updatedCategories);
-      formik.setFieldValue('category', newCategoryInput.trim());
-      setNewCategoryInput('');
-      setShowAddCategory(false);
-    }
-  };
-
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 mb-8">
-      <h2 className="text-xl font-bold text-gray-800 mb-4">
-        {isEditing ? '✏️ Edit Product' : '➕ Add New Product'}
-      </h2>
+    <div className="space-y-4">
+      <div>
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+          {isEditing ? 'Edit Product Details' : 'Add New Inventory Item'}
+        </h3>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          Form validated with Formik and Yup.
+        </p>
+      </div>
 
       <form onSubmit={formik.handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          
-          {/* SKU / Product ID (Read-only Auto Generated) */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Product ID (SKU)</label>
-            <input
-              type="text"
-              name="id"
-              value={formik.values.id}
-              disabled
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-100 text-gray-500 font-mono text-sm"
-            />
-          </div>
+        {/* Product Name */}
+        <div>
+          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+            Product Name
+          </label>
+          <input
+            type="text"
+            name="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            placeholder="e.g. Anchor Full Cream Milk Powder 400g"
+            className={`w-full px-3.5 py-2 rounded-xl border bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 ${
+              formik.touched.name && formik.errors.name
+                ? 'border-rose-500 focus:ring-rose-500'
+                : 'border-gray-200 dark:border-gray-600 focus:ring-blue-500'
+            }`}
+          />
+          {formik.touched.name && formik.errors.name && (
+            <p className="text-xs text-rose-500 mt-1 font-medium">{formik.errors.name}</p>
+          )}
+        </div>
 
-          {/* Product Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Product Name *</label>
-            <input
-              type="text"
-              name="name"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.name}
-              placeholder="e.g. Anchor Milk Powder 400g"
-              className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none ${
-                formik.touched.name && formik.errors.name ? 'border-red-500' : 'border-gray-300'
-              }`}
-            />
-            {formik.touched.name && formik.errors.name && (
-              <p className="text-red-500 text-xs mt-1">{formik.errors.name}</p>
-            )}
-          </div>
-
-          {/* Category Dropdown */}
-          <div>
-            <div className="flex justify-between items-center mb-1">
-              <label className="block text-sm font-medium text-gray-700">Category *</label>
-              <button
-                type="button"
-                onClick={() => setShowAddCategory(!showAddCategory)}
-                className="text-xs text-blue-600 hover:underline font-medium"
-              >
-                {showAddCategory ? 'Cancel' : '+ New Category'}
-              </button>
-            </div>
-
-            {showAddCategory ? (
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={newCategoryInput}
-                  onChange={(e) => setNewCategoryInput(e.target.value)}
-                  placeholder="New category name"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                />
-                <button
-                  type="button"
-                  onClick={handleAddCustomCategory}
-                  className="px-3 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700"
-                >
-                  Add
-                </button>
-              </div>
-            ) : (
+        {/* Category Selection */}
+        <div>
+          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+            Category
+          </label>
+          {!isAddingCustomCategory ? (
+            <div className="flex gap-2">
               <select
                 name="category"
+                value={formik.values.category}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.category}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none ${
-                  formik.touched.category && formik.errors.category ? 'border-red-500' : 'border-gray-300'
+                className={`flex-1 px-3.5 py-2 rounded-xl border bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 ${
+                  formik.touched.category && formik.errors.category
+                    ? 'border-rose-500 focus:ring-rose-500'
+                    : 'border-gray-200 dark:border-gray-600 focus:ring-blue-500'
                 }`}
               >
-                <option value="">Select a category</option>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
+                <option value="">Select Category</option>
+                <option value="Dairy & Bakery">Dairy & Bakery</option>
+                <option value="Snacks & Beverages">Snacks & Beverages</option>
+                <option value="Household & Cleaning">Household & Cleaning</option>
+                <option value="Personal Care">Personal Care</option>
+                <option value="Pantry Essentials">Pantry Essentials</option>
               </select>
-            )}
-            {formik.touched.category && formik.errors.category && (
-              <p className="text-red-500 text-xs mt-1">{formik.errors.category}</p>
-            )}
-          </div>
+              <button
+                type="button"
+                onClick={() => setIsAddingCustomCategory(true)}
+                className="px-3 py-2 bg-gray-200 dark:bg-gray-600 text-xs font-semibold rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-300"
+              >
+                + New
+              </button>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={newCategoryInput}
+                onChange={(e) => {
+                  setNewCategoryInput(e.target.value);
+                  formik.setFieldValue('category', e.target.value);
+                }}
+                placeholder="Enter custom category"
+                className="flex-1 px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                type="button"
+                onClick={() => setIsAddingCustomCategory(false)}
+                className="px-3 py-2 bg-gray-200 dark:bg-gray-600 text-xs font-semibold rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+          {formik.touched.category && formik.errors.category && (
+            <p className="text-xs text-rose-500 mt-1 font-medium">{formik.errors.category}</p>
+          )}
+        </div>
 
-          {/* Price */}
+        {/* Price & Stock Inputs */}
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Price (LKR) *</label>
+            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+              Price (Rs.)
+            </label>
             <input
               type="number"
               name="price"
-              step="0.01"
+              value={formik.values.price}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.price}
-              placeholder="e.g. 1250"
-              className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none ${
-                formik.touched.price && formik.errors.price ? 'border-red-500' : 'border-gray-300'
+              placeholder="0.00"
+              className={`w-full px-3.5 py-2 rounded-xl border bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 ${
+                formik.touched.price && formik.errors.price
+                  ? 'border-rose-500 focus:ring-rose-500'
+                  : 'border-gray-200 dark:border-gray-600 focus:ring-blue-500'
               }`}
             />
             {formik.touched.price && formik.errors.price && (
-              <p className="text-red-500 text-xs mt-1">{formik.errors.price}</p>
+              <p className="text-xs text-rose-500 mt-1 font-medium">{formik.errors.price}</p>
             )}
           </div>
 
-          {/* Stock Quantity */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Initial Stock *</label>
+            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+              Stock Quantity
+            </label>
             <input
               type="number"
               name="stock"
+              value={formik.values.stock}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.stock}
-              placeholder="e.g. 50"
-              className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none ${
-                formik.touched.stock && formik.errors.stock ? 'border-red-500' : 'border-gray-300'
+              placeholder="0"
+              className={`w-full px-3.5 py-2 rounded-xl border bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 ${
+                formik.touched.stock && formik.errors.stock
+                  ? 'border-rose-500 focus:ring-rose-500'
+                  : 'border-gray-200 dark:border-gray-600 focus:ring-blue-500'
               }`}
             />
             {formik.touched.stock && formik.errors.stock && (
-              <p className="text-red-500 text-xs mt-1">{formik.errors.stock}</p>
+              <p className="text-xs text-rose-500 mt-1 font-medium">{formik.errors.stock}</p>
             )}
           </div>
-
         </div>
 
-        {/* Buttons */}
-        <div className="flex justify-end gap-3 pt-3">
-          {isEditing && (
+        {/* Action Buttons */}
+        <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
+          {onCancel && (
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+              className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
             >
               Cancel
             </button>
           )}
           <button
             type="submit"
-            className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition"
+            className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-md transition"
           >
-            {isEditing ? 'Update Product' : 'Add Product'}
+            {isEditing ? 'Save Changes' : 'Create Product'}
           </button>
         </div>
       </form>
