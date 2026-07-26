@@ -1,5 +1,4 @@
 // src/layouts/MainLayout.jsx
-import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useInventoryContext } from '../context/InventoryContext';
 
@@ -15,23 +14,29 @@ const MainLayout = () => {
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans overflow-hidden">
       
-      {/* LEFT SIDEBAR NAVIGATION */}
+      {/* Sidebar Navigation */}
       <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col justify-between z-20">
         <div>
-          {/* Logo Area */}
+          {/* Brand Header */}
           <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white font-bold text-lg shadow-md">
               📦
             </div>
             <div>
-              <h2 className="font-bold text-sm leading-tight text-gray-900 dark:text-white">InventoPro</h2>
-              <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Enterprise UI</span>
+              <h2 className="font-bold text-sm leading-tight text-gray-900 dark:text-white">
+                GayanStore
+              </h2>
+              <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">
+                Inventory Management
+              </span>
             </div>
           </div>
 
-          {/* Nav Links */}
+          {/* Navigation Links */}
           <nav className="p-4 space-y-1">
-            <p className="px-3 text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Menu</p>
+            <p className="px-3 text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">
+              Menu
+            </p>
             {navItems.map((item) => (
               <NavLink
                 key={item.path}
@@ -58,7 +63,7 @@ const MainLayout = () => {
           </nav>
         </div>
 
-        {/* Sidebar Footer */}
+        {/* Sidebar Footer Controls */}
         <div className="p-4 border-t border-gray-100 dark:border-gray-700">
           <button
             onClick={() => setDarkMode(!darkMode)}
@@ -70,9 +75,8 @@ const MainLayout = () => {
         </div>
       </aside>
 
-      {/* MAIN CONTENT AREA */}
+      {/* Main View Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Top Header */}
         <header className="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-8 flex items-center justify-between shrink-0">
           <h1 className="text-lg font-bold text-gray-900 dark:text-white">
             Inventory System Management
@@ -84,7 +88,6 @@ const MainLayout = () => {
           </div>
         </header>
 
-        {/* Page Body View */}
         <main className="flex-1 overflow-y-auto p-8 bg-gray-50 dark:bg-gray-900">
           <Outlet />
         </main>

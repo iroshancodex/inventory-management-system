@@ -1,9 +1,7 @@
 // src/components/Dashboard.jsx
-import React from 'react';
 import AnalyticsChart from './AnalyticsChart';
 
 const Dashboard = ({ products = [], categories = [] }) => {
-  // Calculations
   const totalProducts = products.length;
   const totalValue = products.reduce((sum, p) => sum + p.price * p.stock, 0);
   const lowStockCount = products.filter((p) => p.stock > 0 && p.stock <= 5).length;
@@ -11,15 +9,16 @@ const Dashboard = ({ products = [], categories = [] }) => {
 
   return (
     <div className="space-y-6">
-      
-      {/* --- STAT CARDS GRID --- */}
+      {/* Stat Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         
-        {/* 1. Total Products Card (GRADIENT UPGRADE) */}
+        {/* Total Products */}
         <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-5 text-white shadow-lg shadow-blue-500/10 relative overflow-hidden">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100">Total Products</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100">
+                Total Products
+              </p>
               <h3 className="text-3xl font-extrabold mt-1">{totalProducts}</h3>
             </div>
             <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-md text-xl">
@@ -27,16 +26,20 @@ const Dashboard = ({ products = [], categories = [] }) => {
             </div>
           </div>
           <div className="mt-3 flex items-center text-xs text-blue-100 font-medium">
-            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">Active</span>
+            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">
+              Active
+            </span>
             <span>Live inventory count</span>
           </div>
         </div>
 
-        {/* 2. Total Value Card */}
+        {/* Inventory Value */}
         <div className="bg-gradient-to-br from-emerald-600 to-teal-600 rounded-2xl p-5 text-white shadow-lg shadow-emerald-500/10 relative overflow-hidden">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-emerald-100">Inventory Value</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-emerald-100">
+                Inventory Value
+              </p>
               <h3 className="text-2xl font-extrabold mt-1">
                 Rs. {totalValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </h3>
@@ -46,16 +49,20 @@ const Dashboard = ({ products = [], categories = [] }) => {
             </div>
           </div>
           <div className="mt-3 flex items-center text-xs text-emerald-100 font-medium">
-            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">Asset</span>
+            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">
+              Asset
+            </span>
             <span>Total stock valuation</span>
           </div>
         </div>
 
-        {/* 3. Low Stock Card */}
+        {/* Low Stock */}
         <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-5 text-white shadow-lg shadow-amber-500/10 relative overflow-hidden">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-amber-100">Low Stock (≤5)</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-amber-100">
+                Low Stock (≤5)
+              </p>
               <h3 className="text-3xl font-extrabold mt-1">{lowStockCount}</h3>
             </div>
             <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-md text-xl">
@@ -63,16 +70,20 @@ const Dashboard = ({ products = [], categories = [] }) => {
             </div>
           </div>
           <div className="mt-3 flex items-center text-xs text-amber-100 font-medium">
-            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">Action</span>
+            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">
+              Action
+            </span>
             <span>Items need restock</span>
           </div>
         </div>
 
-        {/* 4. Out of Stock Card */}
+        {/* Out of Stock */}
         <div className="bg-gradient-to-br from-rose-600 to-red-600 rounded-2xl p-5 text-white shadow-lg shadow-rose-500/10 relative overflow-hidden">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-rose-100">Out of Stock</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-rose-100">
+                Out of Stock
+              </p>
               <h3 className="text-3xl font-extrabold mt-1">{outOfStockCount}</h3>
             </div>
             <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-md text-xl">
@@ -80,16 +91,16 @@ const Dashboard = ({ products = [], categories = [] }) => {
             </div>
           </div>
           <div className="mt-3 flex items-center text-xs text-rose-100 font-medium">
-            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">Critical</span>
+            <span className="bg-white/20 px-2 py-0.5 rounded-full mr-2 text-[10px]">
+              Critical
+            </span>
             <span>Unavailable items</span>
           </div>
         </div>
 
       </div>
 
-      {/* Visual Analytics Chart Component */}
       <AnalyticsChart products={products} categories={categories} />
-
     </div>
   );
 };
