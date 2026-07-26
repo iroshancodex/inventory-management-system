@@ -1,6 +1,6 @@
-# SmartStock — Enterprise Inventory Management Suite
+# GayanStore — Inventory Management System
 
-SmartStock is a modern, lightweight, client-side Inventory Management Application built to streamline stock tracking, product management, and inventory analytics for retail businesses. 
+GayanStore is a modern, lightweight, client-side Inventory Management Application built to streamline stock tracking, product management, and inventory analytics for retail businesses. 
 
 Designed as a single-page application (SPA), it operates seamlessly without requiring a backend database by leveraging HTML5 `localStorage` for complete data persistence.
 
@@ -71,6 +71,7 @@ npm run dev
 ```
 
 ## The application will be running at http://localhost:5173.
+## Deployment Link - https://inventory-management-system-omega-ruddy.vercel.app
 
 
 ## Application Screenshots
