@@ -1,38 +1,73 @@
-# 📊 Inventory Management System (Frontend Only)
+# SmartStock — Enterprise Inventory Management Suite
 
-A responsive, feature-rich Inventory Management System built with **React**, **Tailwind CSS**, **Formik**, **Yup**, and **LocalStorage**. Developed as an Intern Assessment task.
+SmartStock is a modern, lightweight, client-side Inventory Management Application built to streamline stock tracking, product management, and inventory analytics for retail businesses. 
 
----
-
-## 🚀 Features Implemented
-
-### Core Features
-- **Product Management (CRUD):** Add, Edit, Delete products with auto-generated SKU IDs.
-- **Stock Level Management:** Restock (+) and Sale (-) controls with validation to prevent negative stock.
-- **Form Validation:** Integrated **Formik** and **Yup** for client-side field validations.
-- **Dashboard Summary:** Overview of total products, total stock value (LKR), low stock alerts, and category distributions.
-- **Search & Filters:** Real-time search by Product Name/SKU and filter by Category or Stock Status (In Stock / Out of Stock).
-- **Data Persistence:** All data stored locally using browser `localStorage` (no backend required).
-
-### Bonus Features
-- 🏷️ **Auto-generated SKU:** Automatically creates unique identifiers (`PRD-XXXXXX`).
-- 📥 **CSV Export:** Download full inventory list as a `.csv` file.
+Designed as a single-page application (SPA), it operates seamlessly without requiring a backend database by leveraging HTML5 `localStorage` for complete data persistence.
 
 ---
 
-## 🛠️ Tech Stack
+## Key Features Implemented
 
-- **Framework:** React.js (Vite)
-- **Styling:** Tailwind CSS
-- **Form Handling:** Formik
-- **Schema Validation:** Yup
-- **State & Storage:** React Hooks + LocalStorage API
+### 1. Product Management
+- **Add & Edit Products**: Full CRUD operations for managing product details.
+- **Auto-Generated SKU**: Automatically generates unique product IDs (e.g., `PRD-482910`).
+- **Form Validation**: Powered by **Formik + Yup** for strict type checking, non-negative quantity limits, and helpful inline error messages.
+
+### 2. Stock Management & Real-time Auditing
+- **Quick Restock & Sales**: Instant single-click buttons to increase or decrease stock levels.
+- **Stock History Logs**: Every stock adjustment is recorded with a precise date and timestamp for complete audit trails.
+- **Out of Stock Prevention**: Built-in guardrails to prevent stock levels from dropping below zero.
+
+### 3. Interactive Dashboard & Analytics
+- **Live Inventory Metrics**: Overview of Total Products, Total Inventory Valuation (LKR), Low Stock warnings (≤ 5 units), and Out of Stock alerts.
+- **Category Stock Distribution**: Visual progress-bar analytics chart showcasing stock breakdown per category.
+
+### 4. Category Management & Custom Categories
+- Organized category structures with real-time item counts.
+- Flexibility to add **Custom Categories** directly from the product form.
+
+### 5. Multi-Criteria Search & Filtering
+- **Keyword Search**: Instant search by Product Name or SKU code.
+- **Category Filter**: Filter product listings by specific categories.
+- **Stock Status Filter**: Quick toggles to view `In Stock` vs `Out of Stock` items.
+
+### 6. Bonus Features Added
+- **Bulk Actions**: Select multiple items simultaneously for batch deletion or bulk restocking (+10 units).
+- **Export to CSV**: One-click download of the entire inventory database into `.csv` format for reporting.
+- **Dark Mode Support**: Full light/dark mode UI adaptiveness.
 
 ---
 
-## 💻 How to Run Locally
+## Tech Stack
 
-1. **Clone the repository:**
-   ```bash
-   git clone <YOUR-GITHUB-REPO-LINK>
-   cd inventory-management-system
+- **Framework**: React.js (Vite)
+- **Form Handling & Validation**: Formik + Yup
+- **Styling**: Tailwind CSS
+- **Iconography**: Lucide React
+- **Notifications**: React Hot Toast
+- **Data Persistence**: HTML5 `localStorage`
+
+---
+
+## How to Run Locally
+
+Follow these steps to set up and run the project on your local machine:
+
+### Prerequisites
+Make sure you have **Node.js** (v16 or higher) and **npm** installed.
+
+### 1. Clone the Repository
+```bash
+git clone [https://github.com/your-username/inventory-management-system.git](https://github.com/your-username/inventory-management-system.git)
+cd inventory-management-system
+
+### 2. Install Dependencies
+```bash
+npm install
+
+### 3. Start Server
+```bash
+npm run dev
+
+
+
